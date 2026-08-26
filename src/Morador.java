@@ -1,68 +1,53 @@
-public class CriarMorador {
+import java.util.ArrayList;
+import java.util.List;
 
-    private int id;
-    private String nome;
-    private int idade;
-    private String telefone;
-    private String email;
-    private String endereco;
+public class Morador extends Usuario {
+    private static List<Morador> moradores = new ArrayList<>();
 
-    public CriarMorador(String nome, int idade, String telefone,
-                        String email, String endereco) {
-
-        this.nome = nome;
-        this.idade = idade;
-        this.telefone = telefone;
-        this.email = email;
-        this.endereco = endereco;
+    // CONSTRUTOR
+    public Morador(String avatar, String nome, String telefone, String documento, String email, String password) {
+        super(avatar, nome, telefone, documento, email, password);
     }
 
-    public int getId() {
-        return id;
+    // BUSCAR TODOS MORADORES
+    public static List<Morador> getMoradores() {
+        return List.copyOf(moradores);
     }
 
-
-    public String getNome() {
-        return nome;
+    // BUSCAR MORADOR POR ID
+    public static Morador getById(int id) {
+        for (Morador m : moradores) {
+            if (m.getId() == id) return m;
+        }
+        return null;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    @Override
+    protected void create() {
+        gerarId();
+        moradores.add(this);
     }
 
-
-    public int getIdade() {
-        return idade;
+    @Override
+    protected void update(int id) {
+        for (int i = 0; i < moradores.size(); i++) {
+            if (moradores.get(i).getId() == id) {
+                this.id = id;
+                moradores.set(i, this);
+                return;
+            }
+        }
     }
 
-    public void setIdade(int idade) {
-        this.idade = idade;
+    @Override
+    protected void delete(int id) {
+        moradores.removeIf(m -> m.getId() == id);
     }
 
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
+    @Override
+    public String toString() {
+        return "{id=" + getId() + ", avatar='" + avatar + "', nome='" + nome
+                + "', telefone='" + telefone + "', documento='" + documento
+                + "', email='" + email + "'}";
     }
 }
