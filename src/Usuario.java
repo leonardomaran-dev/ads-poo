@@ -1,52 +1,21 @@
-public class Usuario {
-    private int id;
-    private String avatar;
-    private String nome;
-    private String telefone;
-    private String email;
+public abstract class Usuario extends Pessoa {
+    protected String email;
+    protected String password;
 
-    //CONSTRUTOR
-    public Usuario(String avatar, String nome, String telefone, String email) {
-        this.avatar = avatar;
-        this.nome = nome;
-        this.telefone = telefone;
+    // CONSTRUTOR
+    public Usuario(String avatar, String nome, String telefone, String documento, String email, String password) {
+        super(avatar, nome, telefone, documento);
         this.email = email;
+        this.password = password;
     }
 
-    //GETTERS / SETTERS
-    public int getId() {
-        return id;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
+    // SETTERS
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
