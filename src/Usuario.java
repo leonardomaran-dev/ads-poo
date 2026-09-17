@@ -9,6 +9,10 @@ public abstract class Usuario extends Pessoa {
         this.password = password;
     }
 
+    public String getEmail() {
+        return this.email;
+    }
+
     // SETTERS
 
     public void setEmail(String email) {

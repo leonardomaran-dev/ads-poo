@@ -1,125 +1,132 @@
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
+        final Scanner leitor = new Scanner(System.in);
+        int opcao;
 
-        // ===== CRIAR MORADOR =====
-        Morador m1 = new Morador("joao.png", "Joao", "99999-1111",
-                "123.456.789-00", "joao@x.com", "senha1");
-        m1.create();
+        do {
+            System.out.println("=================== MENU ===================");
+            System.out.println("1 - Criar Morador");
+            System.out.println("2 - Criar Visitante");
+            System.out.println("3 - Listar Moradores");
+            System.out.println("4 - Listar Visitantes");
+            System.out.println("0 - Sair");
+            System.out.println("============================================");
+            System.out.print("Escolha uma opcao: ");
+            try {
+                opcao = Integer.parseInt(leitor.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Opcao invalida! Digite um numero.");
+                opcao = -1;
+            }
 
-        Morador m2 = new Morador("maria.png", "Maria", "98888-2222",
-                "987.654.321-00", "maria@x.com", "senha2");
-        m2.create();
-
-        // EXIBIR MORADORES (SIMULANDO BANCO DE DADOS)
-        System.out.println("************************** MORADORES **************************");
-        listar();
-
-        // BUSCAR MORADOR COM ID 1
-        Morador morador = Morador.getById(1);
-        System.out.println("************************ BUSCAR MORADOR ************************");
-        System.out.println(morador);
-        System.out.println();
-
-        // ATUALIZAR MORADOR
-        Morador moradorAlvo = Morador.getById(1);
-        if (moradorAlvo != null) {
-            moradorAlvo.setTelefone("97777-3333");
-            moradorAlvo.update(1);
-        }
-        System.out.println("********************** MORADOR ATUALIZADO **********************");
-        listar();
-
-        // EXCLUIR MORADOR
-        Morador moradorRemover = Morador.getById(2);
-        if (moradorRemover != null) {
-            moradorRemover.delete(2);
-        }
-        System.out.println("********************** MORADOR EXCLUIDO **********************");
-        listar();
+            switch (opcao) {
+                case 1 -> criarMorador(leitor);
+                case 2 -> criarVisitante(leitor);
+                case 3 -> listarMoradores();
+                case 4 -> listarVisitantes();
+                case 0 -> System.out.println("Saindo...");
+                default -> System.out.println("Opcao invalida!");
+            }
+        } while (opcao != 0);
     }
 
-    private static void listar() {
+    private static void criarMorador(Scanner leitor) {
+        String avatar = Utils.lerCampo(leitor, "Avatar: ", 1, "^.+\\.(png|jpg|jpeg)$");
+        String nome = Utils.lerCampo(leitor, "Nome: ", 2, "^[a-zA-ZÀ-ú ]+$");
+        String telefone = "";
+        String documento = "";
+
+        while (true) {
+            System.out.print("Telefone (apenas numeros, ex: 11999991111): ");
+            telefone = leitor.nextLine();
+            if (!telefone.matches("\\d{11}")) {
+                System.out.println("Telefone invalido! Digite 11 digitos (DDD + numero).");
+            } else if (Utils.telefoneExistente(telefone)) {
+                System.out.println("Este telefone ja esta cadastrado!");
+            } else {
+                break;
+            }
+        }
+
+        while (true) {
+            System.out.print("Documento (apenas numeros, ex: 12345678900): ");
+            documento = leitor.nextLine();
+            if (!documento.matches("\\d{11}")) {
+                System.out.println("CPF invalido! Digite 11 digitos.");
+            } else if (Utils.documentoExistente(Morador.getMoradores(), documento)) {
+                System.out.println("Este CPF ja esta cadastrado!");
+            } else {
+                break;
+            }
+        }
+
+        String email;
+        while (true) {
+            email = Utils.lerCampo(leitor, "Email: ", 1, "^[^@]+@[^@]+\\.[^@]+$");
+            if (Utils.emailExistente(email)) {
+                System.out.println("Este email ja esta cadastrado!");
+            } else {
+                break;
+            }
+        }
+
+        String senha = Utils.confirmarSenha(leitor);
+
+        Morador m = new Morador(avatar, nome, Utils.formatarTelefone(telefone), Utils.formatarCPF(documento), email, senha);
+        m.create();
+        System.out.println("Morador criado com sucesso!");
+    }
+
+    private static void criarVisitante(Scanner leitor) {
+        String avatar = Utils.lerCampo(leitor, "Avatar: ", 1, "^.+\\.(png|jpg|jpeg)$");
+        String nome = Utils.lerCampo(leitor, "Nome: ", 2, "^[a-zA-ZÀ-ú ]+$");
+        String telefone = "";
+        String documento = "";
+
+        while (true) {
+            System.out.print("Telefone (apenas numeros, ex: 11999991111): ");
+            telefone = leitor.nextLine();
+            if (!telefone.matches("\\d{11}")) {
+                System.out.println("Telefone invalido! Digite 11 digitos (DDD + numero).");
+            } else if (Utils.telefoneExistente(telefone)) {
+                System.out.println("Este telefone ja esta cadastrado!");
+            } else {
+                break;
+            }
+        }
+
+        while (true) {
+            System.out.print("Documento (apenas numeros, ex: 12345678900): ");
+            documento = leitor.nextLine();
+            if (!documento.matches("\\d{11}")) {
+                System.out.println("CPF invalido! Digite 11 digitos.");
+            } else if (Utils.documentoExistente(Visitante.getVisitantes(), documento)) {
+                System.out.println("Este documento ja esta cadastrado!");
+            } else {
+                break;
+            }
+        }
+
+        Visitante v = new Visitante(avatar, nome, Utils.formatarTelefone(telefone), Utils.formatarCPF(documento));
+        v.create();
+        System.out.println("Visitante criado com sucesso!");
+    }
+
+    private static void listarMoradores() {
+        System.out.println("===== MORADORES =====");
         for (Morador m : Morador.getMoradores()) {
             System.out.println(m);
         }
         System.out.println();
+    }
 
-
-        // CRIANDO VISITANTE  11-09
-
-        Visitante v1 = new Visitante(
-                "carlos.png",
-                "Carlos",
-                "98888-5555",
-                "111.222.333-44"
-        );
-
-        v1.create();
-
-
-        // CRIANDO OUTRO VISITANTE
-
-        Visitante v2 = new Visitante(
-                "ana.png",
-                "Ana",
-                "97777-6666",
-                "555.666.777-88"
-        );
-
-        v2.create();
-
-
-        // LISTANDO VISITANTES
-
-        System.out.println("\n===== LISTA DE VISITANTES =====");
-
-        for (Visitante visitante : Visitante.getVisitantes()) {
-
-            System.out.println(visitante);
+    private static void listarVisitantes() {
+        System.out.println("===== VISITANTES =====");
+        for (Visitante v : Visitante.getVisitantes()) {
+            System.out.println(v);
         }
-
-
-        // BUSCANDO VISITANTE
-
-        System.out.println("\n===== BUSCAR VISITANTE =====");
-
-        Visitante visitanteEncontrado = Visitante.getById(3);
-
-        if (visitanteEncontrado != null) {
-
-            System.out.println(visitanteEncontrado);
-
-        } else {
-
-            System.out.println("Visitante não encontrado.");
-        }
-
-
-        // EDITANDO VISITANTE - alterou o telefone
-
-        System.out.println("\n===== EDITANDO VISITANTE =====");
-
-        v1.setTelefone("96666-7777");
-
-        v1.update(3);
-
-        System.out.println(v1);
-
-
-        // EXCLUINDO VISITANTE
-
-        System.out.println("\n===== EXCLUINDO VISITANTE =====");
-
-        v2.delete(4);
-
-
-        // LISTANDO NOVAMENTE
-
-        System.out.println("\n===== VISITANTES APÓS EXCLUSÃO =====");
-
-        for (Visitante visitante : Visitante.getVisitantes()) {
-
-            System.out.println(visitante);
-        }
+        System.out.println();
     }
 }

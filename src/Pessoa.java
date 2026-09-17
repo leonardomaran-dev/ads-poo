@@ -27,7 +27,13 @@ public abstract class Pessoa {
 
     protected abstract void delete(int id);
 
-    // SETTERS
+    public String getTelefone() {
+        return this.telefone;
+    }
+
+    public String getDocumento() {
+        return this.documento;
+    }
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
