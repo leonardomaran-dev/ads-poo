@@ -11,6 +11,7 @@ public class Main {
             System.out.println("2 - Criar Visitante");
             System.out.println("3 - Listar Moradores");
             System.out.println("4 - Listar Visitantes");
+            System.out.println("5 - Excluir Morador");
             System.out.println("0 - Sair");
             System.out.println("============================================");
             System.out.print("Escolha uma opcao: ");
@@ -26,10 +27,12 @@ public class Main {
                 case 2 -> criarVisitante(leitor);
                 case 3 -> listarMoradores();
                 case 4 -> listarVisitantes();
+                case 5 -> excluirMorador(leitor);
                 case 0 -> System.out.println("Saindo...");
                 default -> System.out.println("Opcao invalida!");
             }
         } while (opcao != 0);
+
     }
 
     private static void criarMorador(Scanner leitor) {
@@ -120,6 +123,33 @@ public class Main {
             System.out.println(m);
         }
         System.out.println();
+    }
+    private static void excluirMorador(Scanner leitor) {
+
+        listarMoradores();
+
+        System.out.print("Digite o ID do morador que deseja excluir: ");
+
+        try {
+            int id = Integer.parseInt(leitor.nextLine());
+
+            Morador morador = Morador.getById(id);
+
+            if (morador != null) {
+
+                morador.delete(id);
+
+                System.out.println("Morador excluido com sucesso!");
+
+            } else {
+
+                System.out.println("Morador nao encontrado!");
+            }
+
+        } catch (NumberFormatException e) {
+
+            System.out.println("ID invalido! Digite um numero.");
+        }
     }
 
     private static void listarVisitantes() {
