@@ -124,7 +124,7 @@ public class Main {
         }
         System.out.println();
     }
-    private static void excluirMorador(Scanner leitor) {
+    private static void excluirMorador(Scanner leitor) { // exclusao
 
         listarMoradores();
 

@@ -40,7 +40,7 @@ public class Morador extends Usuario {
     }
 
     @Override
-    public void delete(int id) {  //deixei public para poder chamar no main sem mexer muita coisa no codigo
+    public void delete(int id) {  //Deixei public para poder chamar no main sem mexer muita coisa no codigo
         moradores.removeIf(m -> m.getId() == id);
     }
 
