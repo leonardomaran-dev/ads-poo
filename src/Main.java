@@ -77,7 +77,13 @@ public class Main {
 
         String senha = Utils.confirmarSenha(leitor);
 
-        Morador m = new Morador(avatar, nome, Utils.formatarTelefone(telefone), Utils.formatarCPF(documento), email, senha);
+        System.out.print("Numero do apartamento: ");
+        String apartamento = leitor.nextLine();
+
+        System.out.print("Bloco: ");
+        String bloco = leitor.nextLine();
+
+        Morador m = new Morador(avatar, nome, Utils.formatarTelefone(telefone), Utils.formatarCPF(documento), email, senha, apartamento, bloco);
         m.create();
         System.out.println("Morador criado com sucesso!");
     }
