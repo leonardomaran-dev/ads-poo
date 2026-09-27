@@ -12,6 +12,7 @@ public class Main {
             System.out.println("3 - Listar Moradores");
             System.out.println("4 - Listar Visitantes");
             System.out.println("5 - Excluir Morador");
+            System.out.println("6 - Excluir Visitante")
             System.out.println("0 - Sair");
             System.out.println("============================================");
             System.out.print("Escolha uma opcao: ");
@@ -28,6 +29,7 @@ public class Main {
                 case 3 -> listarMoradores();
                 case 4 -> listarVisitantes();
                 case 5 -> excluirMorador(leitor);
+                case 6 -> excluirVisitante(leitor);
                 case 0 -> System.out.println("Saindo...");
                 default -> System.out.println("Opcao invalida!");
             }
@@ -150,6 +152,34 @@ public class Main {
             } else {
 
                 System.out.println("Morador nao encontrado!");
+            }
+
+        } catch (NumberFormatException e) {
+
+            System.out.println("ID invalido! Digite um numero.");
+        }
+    }
+
+    private static void excluirVisitante(Scanner leitor) { // exclusao
+
+        listarVisitantes();
+
+        System.out.print("Digite o ID do visitante que deseja excluir: ");
+
+        try {
+            int id = Integer.parseInt(leitor.nextLine());
+
+            Visitante visitante = Visitante.getById(id);
+
+            if (visitante != null) {
+
+                visitante.delete(id);
+
+                System.out.println("Visitante excluido com sucesso!");
+
+            } else {
+
+                System.out.println("Visitante nao encontrado!");
             }
 
         } catch (NumberFormatException e) {
