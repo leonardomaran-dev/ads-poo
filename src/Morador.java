@@ -58,6 +58,5 @@ public class Morador extends Usuario {
                 + "', email='" + email
                 + "', apartamento='" + apartamento
                 + "', bloco='" + bloco + "'}";
-
     }
 }

@@ -12,7 +12,7 @@ public class Main {
             System.out.println("3 - Listar Moradores");
             System.out.println("4 - Listar Visitantes");
             System.out.println("5 - Excluir Morador");
-            System.out.println("6 - Excluir Visitante")
+            System.out.println("6 - Excluir Visitante");
             System.out.println("0 - Sair");
             System.out.println("============================================");
             System.out.print("Escolha uma opcao: ");
